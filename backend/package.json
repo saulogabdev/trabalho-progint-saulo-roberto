@@ -1,7 +1,7 @@
 {
-  "name": "cinelog-backend",
+  "name": "revisacar-backend",
   "version": "1.0.0",
-  "description": "API REST do CineLog - catálogo pessoal de filmes e séries",
+  "description": "API REST do RevisaCar - controle de manutenção de veículos com integração à Tabela FIPE",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

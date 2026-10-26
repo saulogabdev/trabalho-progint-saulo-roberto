@@ -2,7 +2,8 @@
 const path = require('path');
 const express = require('express');
 const cors = require('cors');
-const filmeRoutes = require('./routes/filmeRoutes');
+const manutencaoRoutes = require('./routes/manutencaoRoutes');
+const fipeRoutes = require('./routes/fipeRoutes');
 
 const app = express();
 
@@ -18,7 +19,8 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/api/filmes', filmeRoutes);
+app.use('/api/manutencoes', manutencaoRoutes);
+app.use('/api/fipe', fipeRoutes);
 
 // O backend também serve o frontend, então tudo roda com um único comando.
 app.use(express.static(path.join(__dirname, '..', '..', 'frontend')));

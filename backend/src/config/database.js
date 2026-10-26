@@ -8,18 +8,32 @@ const db = new Database(caminho);
 db.pragma('journal_mode = WAL');
 
 db.exec(`
-  CREATE TABLE IF NOT EXISTS filmes (
-    id          INTEGER PRIMARY KEY AUTOINCREMENT,
-    titulo      TEXT    NOT NULL,
-    tipo        TEXT    NOT NULL DEFAULT 'Filme',
-    genero      TEXT    NOT NULL,
-    ano         INTEGER NOT NULL,
-    nota        REAL,
-    assistido   INTEGER NOT NULL DEFAULT 0,
-    sinopse     TEXT,
-    criado_em   TEXT    NOT NULL DEFAULT (datetime('now', 'localtime')),
-    atualizado_em TEXT  NOT NULL DEFAULT (datetime('now', 'localtime'))
-  )
+  CREATE TABLE IF NOT EXISTS manutencoes (
+    id             INTEGER PRIMARY KEY AUTOINCREMENT,
+    placa          TEXT    NOT NULL,
+    tipo_servico   TEXT    NOT NULL,
+    km             INTEGER NOT NULL,
+    data           TEXT    NOT NULL,
+    custo          REAL    NOT NULL,
+    oficina        TEXT    NOT NULL,
+    observacoes    TEXT,
+
+    -- Dados do veículo vindos da Tabela FIPE (opcionais)
+    tipo_veiculo   TEXT,
+    marca_codigo   TEXT,
+    marca          TEXT,
+    modelo_codigo  TEXT,
+    modelo         TEXT,
+    ano_codigo     TEXT,
+    ano_modelo     TEXT,
+    codigo_fipe    TEXT,
+    valor_fipe     REAL,
+
+    criado_em      TEXT    NOT NULL DEFAULT (datetime('now', 'localtime')),
+    atualizado_em  TEXT    NOT NULL DEFAULT (datetime('now', 'localtime'))
+  );
+
+  CREATE INDEX IF NOT EXISTS idx_manutencoes_placa ON manutencoes (placa);
 `);
 
 module.exports = db;

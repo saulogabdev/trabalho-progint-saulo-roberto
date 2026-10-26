@@ -1,12 +1,12 @@
-// Mapeamento dos endpoints HTTP para as funções do controller.
+// Mapeamento dos endpoints HTTP de manutenções para as funções do controller.
 const { Router } = require('express');
-const controller = require('../controllers/filmeController');
+const controller = require('../controllers/manutencaoController');
 
 const router = Router();
 
 // Rotas fixas vêm antes de "/:id" para não serem confundidas com um id.
 router.get('/opcoes', controller.opcoes);
-router.get('/estatisticas', controller.estatisticas);
+router.get('/veiculos', controller.veiculos);
 
 router.get('/', controller.listar);
 router.get('/:id', controller.buscarPorId);

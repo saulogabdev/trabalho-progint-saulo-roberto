@@ -3,69 +3,104 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CineLog - Catálogo de Filmes e Séries</title>
+  <title>RevisaCar - Controle de Manutenção de Veículos</title>
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
   <header class="topo">
-    <h1>🎬 CineLog</h1>
-    <p>Seu catálogo pessoal de filmes e séries: o que já viu, o que quer ver e quanto gostou.</p>
+    <h1>🔧 RevisaCar</h1>
+    <p>Controle de manutenção de veículos com consulta à Tabela FIPE.</p>
   </header>
 
   <main class="container">
-    <section class="resumo" aria-label="Resumo do catálogo">
-      <div class="cartao"><span id="stat-total">0</span><small>no catálogo</small></div>
-      <div class="cartao"><span id="stat-assistidos">0</span><small>assistidos</small></div>
-      <div class="cartao"><span id="stat-pendentes">0</span><small>para assistir</small></div>
-      <div class="cartao"><span id="stat-nota">–</span><small>nota média</small></div>
+    <section class="resumo" aria-label="Resumo geral">
+      <div class="cartao"><span id="stat-veiculos">0</span><small>veículos</small></div>
+      <div class="cartao"><span id="stat-manutencoes">0</span><small>manutenções</small></div>
+      <div class="cartao"><span id="stat-total">R$ 0,00</span><small>gasto total</small></div>
+      <div class="cartao"><span id="stat-media">R$ 0,00</span><small>média por serviço</small></div>
     </section>
 
     <section class="painel" aria-labelledby="titulo-form">
-      <h2 id="titulo-form">Cadastrar título</h2>
-      <form id="form-filme" novalidate>
+      <h2 id="titulo-form">Registrar manutenção</h2>
+      <form id="form-manutencao" novalidate>
         <input type="hidden" id="id">
 
-        <div class="grade">
-          <div class="campo campo-largo">
-            <label for="titulo">Título *</label>
-            <input type="text" id="titulo" maxlength="150" required>
-          </div>
+        <fieldset>
+          <legend>Veículo</legend>
+          <div class="grade">
+            <div class="campo">
+              <label for="placa">Placa (Mercosul) *</label>
+              <input type="text" id="placa" maxlength="8" required autocomplete="off"
+                     placeholder="BRA2E19" aria-describedby="ajuda-placa" class="placa">
+              <small id="ajuda-placa" class="ajuda">3 letras, 1 número, 1 letra e 2 números.</small>
+            </div>
 
-          <div class="campo">
-            <label for="tipo">Tipo *</label>
-            <select id="tipo" required></select>
-          </div>
+            <div class="campo">
+              <label for="tipo-veiculo">Tipo de veículo</label>
+              <select id="tipo-veiculo">
+                <option value="carros">Carro</option>
+                <option value="motos">Moto</option>
+                <option value="caminhoes">Caminhão</option>
+              </select>
+            </div>
 
-          <div class="campo">
-            <label for="genero">Gênero *</label>
-            <select id="genero" required></select>
-          </div>
+            <div class="campo">
+              <label for="marca">Marca (FIPE)</label>
+              <select id="marca" disabled><option value="">Carregando...</option></select>
+            </div>
 
-          <div class="campo">
-            <label for="ano">Ano de lançamento *</label>
-            <input type="number" id="ano" min="1888" step="1" required>
-          </div>
+            <div class="campo campo-duplo">
+              <label for="modelo">Modelo (FIPE)</label>
+              <select id="modelo" disabled><option value="">Selecione a marca primeiro</option></select>
+            </div>
 
-          <div class="campo campo-check">
-            <input type="checkbox" id="assistido">
-            <label for="assistido">Já assisti</label>
-          </div>
+            <div class="campo">
+              <label for="ano">Ano / combustível (FIPE)</label>
+              <select id="ano" disabled><option value="">Selecione o modelo primeiro</option></select>
+            </div>
 
-          <div class="campo">
-            <label for="nota">Nota (0 a 10)</label>
-            <input type="number" id="nota" min="0" max="10" step="0.5" disabled
-                   aria-describedby="ajuda-nota">
-            <small id="ajuda-nota">Disponível após marcar "Já assisti".</small>
+            <div id="fipe-info" class="fipe-info campo-largo" aria-live="polite" hidden></div>
           </div>
+        </fieldset>
 
-          <div class="campo campo-largo">
-            <label for="sinopse">Sinopse / comentário</label>
-            <textarea id="sinopse" rows="3" maxlength="1000"></textarea>
+        <fieldset>
+          <legend>Serviço</legend>
+          <div class="grade">
+            <div class="campo">
+              <label for="tipo-servico">Tipo de serviço *</label>
+              <select id="tipo-servico" required></select>
+            </div>
+
+            <div class="campo">
+              <label for="km">Km no momento *</label>
+              <input type="number" id="km" min="1" step="1" inputmode="numeric" required>
+            </div>
+
+            <div class="campo">
+              <label for="data">Data *</label>
+              <input type="date" id="data" required>
+            </div>
+
+            <div class="campo">
+              <label for="custo">Custo (R$) *</label>
+              <input type="number" id="custo" min="0" step="0.01" inputmode="decimal" required>
+            </div>
+
+            <div class="campo campo-duplo">
+              <label for="oficina">Oficina *</label>
+              <input type="text" id="oficina" maxlength="100" required>
+            </div>
+
+            <div class="campo campo-largo">
+              <label for="observacoes">Observações</label>
+              <textarea id="observacoes" rows="2" maxlength="500"
+                        placeholder="Ex.: óleo 5W30 sintético, próxima troca em 10.000 km"></textarea>
+            </div>
           </div>
-        </div>
+        </fieldset>
 
         <div class="acoes">
-          <button type="submit" id="btn-salvar" class="btn btn-primario">Cadastrar título</button>
+          <button type="submit" id="btn-salvar" class="btn btn-primario">Registrar manutenção</button>
           <button type="button" id="btn-cancelar" class="btn" hidden>Cancelar edição</button>
         </div>
       </form>
@@ -73,50 +108,68 @@
 
     <div id="mensagem" class="mensagem" role="status" aria-live="polite"></div>
 
+    <section class="painel" aria-labelledby="titulo-veiculos">
+      <h2 id="titulo-veiculos">Meus veículos</h2>
+      <div class="tabela-wrapper">
+        <table>
+          <caption class="sr-only">Resumo de gastos por veículo</caption>
+          <thead>
+            <tr>
+              <th scope="col">Placa</th>
+              <th scope="col">Veículo</th>
+              <th scope="col">Serviços</th>
+              <th scope="col">Km atual</th>
+              <th scope="col">Total gasto</th>
+              <th scope="col">Valor FIPE</th>
+              <th scope="col">Gastos x FIPE</th>
+              <th scope="col"><span class="sr-only">Ações</span></th>
+            </tr>
+          </thead>
+          <tbody id="tabela-veiculos"></tbody>
+        </table>
+      </div>
+      <p id="vazio-veiculos" class="vazio" hidden>Nenhum veículo ainda. Registre a primeira manutenção acima.</p>
+    </section>
+
     <section class="painel" aria-labelledby="titulo-lista">
-      <h2 id="titulo-lista">Meu catálogo</h2>
+      <h2 id="titulo-lista">Histórico de manutenções</h2>
 
       <form id="form-filtros" class="filtros" role="search">
         <div class="campo">
-          <label for="filtro-busca">Buscar por título</label>
-          <input type="search" id="filtro-busca" placeholder="Ex.: Matrix">
+          <label for="filtro-placa">Placa</label>
+          <input type="search" id="filtro-placa" placeholder="Ex.: BRA2E19" class="placa">
         </div>
         <div class="campo">
-          <label for="filtro-genero">Gênero</label>
-          <select id="filtro-genero"><option value="">Todos</option></select>
-        </div>
-        <div class="campo">
-          <label for="filtro-assistido">Situação</label>
-          <select id="filtro-assistido">
-            <option value="">Todos</option>
-            <option value="true">Assistidos</option>
-            <option value="false">Para assistir</option>
-          </select>
+          <label for="filtro-servico">Tipo de serviço</label>
+          <select id="filtro-servico"><option value="">Todos</option></select>
         </div>
       </form>
 
       <div class="tabela-wrapper">
         <table>
-          <caption class="sr-only">Lista de filmes e séries cadastrados</caption>
+          <caption class="sr-only">Lista de manutenções registradas</caption>
           <thead>
             <tr>
-              <th scope="col">Título</th>
-              <th scope="col">Tipo</th>
-              <th scope="col">Gênero</th>
-              <th scope="col">Ano</th>
-              <th scope="col">Situação</th>
-              <th scope="col">Nota</th>
+              <th scope="col">Data</th>
+              <th scope="col">Placa</th>
+              <th scope="col">Serviço</th>
+              <th scope="col">Km</th>
+              <th scope="col">Oficina</th>
+              <th scope="col">Custo</th>
               <th scope="col">Ações</th>
             </tr>
           </thead>
-          <tbody id="tabela-corpo"></tbody>
+          <tbody id="tabela-manutencoes"></tbody>
         </table>
       </div>
-      <p id="vazio" class="vazio" hidden>Nenhum título encontrado.</p>
+      <p id="vazio-manutencoes" class="vazio" hidden>Nenhuma manutenção encontrada.</p>
     </section>
   </main>
 
-  <footer class="rodape">CineLog — Projeto CRUD · Programação para Internet</footer>
+  <footer class="rodape">
+    RevisaCar — Projeto CRUD · Programação para Internet ·
+    Preços: <a href="https://deividfortuna.github.io/fipe/v2/">API FIPE (Parallelum)</a>
+  </footer>
 
   <script src="js/api.js"></script>
   <script src="js/app.js"></script>

@@ -4,5 +4,5 @@ const app = require('./src/app');
 const PORTA = process.env.PORT || 3000;
 
 app.listen(PORTA, () => {
-  console.log(`CineLog rodando em http://localhost:${PORTA}`);
+  console.log(`RevisaCar rodando em http://localhost:${PORTA}`);
 });
