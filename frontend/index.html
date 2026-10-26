@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CineLog - Catálogo de Filmes e Séries</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="topo">
+    <h1>🎬 CineLog</h1>
+    <p>Seu catálogo pessoal de filmes e séries: o que já viu, o que quer ver e quanto gostou.</p>
+  </header>
+
+  <main class="container">
+    <section class="resumo" aria-label="Resumo do catálogo">
+      <div class="cartao"><span id="stat-total">0</span><small>no catálogo</small></div>
+      <div class="cartao"><span id="stat-assistidos">0</span><small>assistidos</small></div>
+      <div class="cartao"><span id="stat-pendentes">0</span><small>para assistir</small></div>
+      <div class="cartao"><span id="stat-nota">–</span><small>nota média</small></div>
+    </section>
+
+    <section class="painel" aria-labelledby="titulo-form">
+      <h2 id="titulo-form">Cadastrar título</h2>
+      <form id="form-filme" novalidate>
+        <input type="hidden" id="id">
+
+        <div class="grade">
+          <div class="campo campo-largo">
+            <label for="titulo">Título *</label>
+            <input type="text" id="titulo" maxlength="150" required>
+          </div>
+
+          <div class="campo">
+            <label for="tipo">Tipo *</label>
+            <select id="tipo" required></select>
+          </div>
+
+          <div class="campo">
+            <label for="genero">Gênero *</label>
+            <select id="genero" required></select>
+          </div>
+
+          <div class="campo">
+            <label for="ano">Ano de lançamento *</label>
+            <input type="number" id="ano" min="1888" step="1" required>
+          </div>
+
+          <div class="campo campo-check">
+            <input type="checkbox" id="assistido">
+            <label for="assistido">Já assisti</label>
+          </div>
+
+          <div class="campo">
+            <label for="nota">Nota (0 a 10)</label>
+            <input type="number" id="nota" min="0" max="10" step="0.5" disabled
+                   aria-describedby="ajuda-nota">
+            <small id="ajuda-nota">Disponível após marcar "Já assisti".</small>
+          </div>
+
+          <div class="campo campo-largo">
+            <label for="sinopse">Sinopse / comentário</label>
+            <textarea id="sinopse" rows="3" maxlength="1000"></textarea>
+          </div>
+        </div>
+
+        <div class="acoes">
+          <button type="submit" id="btn-salvar" class="btn btn-primario">Cadastrar título</button>
+          <button type="button" id="btn-cancelar" class="btn" hidden>Cancelar edição</button>
+        </div>
+      </form>
+    </section>
+
+    <div id="mensagem" class="mensagem" role="status" aria-live="polite"></div>
+
+    <section class="painel" aria-labelledby="titulo-lista">
+      <h2 id="titulo-lista">Meu catálogo</h2>
+
+      <form id="form-filtros" class="filtros" role="search">
+        <div class="campo">
+          <label for="filtro-busca">Buscar por título</label>
+          <input type="search" id="filtro-busca" placeholder="Ex.: Matrix">
+        </div>
+        <div class="campo">
+          <label for="filtro-genero">Gênero</label>
+          <select id="filtro-genero"><option value="">Todos</option></select>
+        </div>
+        <div class="campo">
+          <label for="filtro-assistido">Situação</label>
+          <select id="filtro-assistido">
+            <option value="">Todos</option>
+            <option value="true">Assistidos</option>
+            <option value="false">Para assistir</option>
+          </select>
+        </div>
+      </form>
+
+      <div class="tabela-wrapper">
+        <table>
+          <caption class="sr-only">Lista de filmes e séries cadastrados</caption>
+          <thead>
+            <tr>
+              <th scope="col">Título</th>
+              <th scope="col">Tipo</th>
+              <th scope="col">Gênero</th>
+              <th scope="col">Ano</th>
+              <th scope="col">Situação</th>
+              <th scope="col">Nota</th>
+              <th scope="col">Ações</th>
+            </tr>
+          </thead>
+          <tbody id="tabela-corpo"></tbody>
+        </table>
+      </div>
+      <p id="vazio" class="vazio" hidden>Nenhum título encontrado.</p>
+    </section>
+  </main>
+
+  <footer class="rodape">CineLog — Projeto CRUD · Programação para Internet</footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
